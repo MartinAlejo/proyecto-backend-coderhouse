@@ -1,10 +1,11 @@
 import ProductManager from "./classes/ProductManager.js";
+import __dirname from "./utils.js"
 
 // Agrego dos funciones, una para agregar 10 productos al json y otra para ver si el limit al 
 // obtener productos funciona correctamente
 
 async function agregar_10_productos_al_json() {
-  let productManager = new ProductManager("./files/products.json")
+  let productManager = new ProductManager(__dirname + "/files/products.json")
 
   await productManager.addProduct({title: "Manzana", description: "Soy una Manzana", price: 10, thumbnail: "manza_img", code: 5, stock: 10});
 

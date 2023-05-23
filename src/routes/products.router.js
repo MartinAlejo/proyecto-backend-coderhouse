@@ -1,7 +1,8 @@
 import { Router } from "express"
 import ProductManager from '../classes/ProductManager.js'
+import __dirname from "../utils.js"
 
-let path = "./files/products.json" // El path es a partir de la ubicacion de app.js
+let path = __dirname + "/files/products.json"
 
 let productManager = new ProductManager(path)
 
