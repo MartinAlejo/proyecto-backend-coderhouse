@@ -21,17 +21,19 @@ export default class ProductManager {
     return products
   }
 
-  #rebuildProduct({title, description, price, thumbnail, code, stock, id}) {
-    let product = new Product(title, description, price, thumbnail, code, stock)
+  #rebuildProduct({title, description, price, thumbnails, code, stock, category, status, id}) {
+    let product = new Product(title, description, price, thumbnails, code, stock, category, status)
     product.id = id
 
     return product
   }
 
-  async addProduct({title, description, price, thumbnail, code, stock}) {
+  async addProduct({title, description, price, thumbnails = null, code, stock, category, status}) {
     let products = await this.#loadProductsFromPath();
 
-    let hayCampoVacio = [title, description, price, thumbnail, code, stock].some(campo => campo === null || campo === "" || campo === undefined)
+    // Verificamos si se puede agregar el producto
+
+    let hayCampoVacio = [title, description, price, code, stock, category, status].some(campo => campo === null || campo === "" || campo === undefined)
 
     if (hayCampoVacio) {
       console.log("Falta agregar un campo")
@@ -45,7 +47,7 @@ export default class ProductManager {
 
     // Se agrega el producto
 
-    let newProduct = new Product(title, description, price, thumbnail, code, stock);
+    let newProduct = new Product(title, description, price, thumbnails, code, stock, category, status);
 
     if (products.length === 0) {
       newProduct.id = 1
