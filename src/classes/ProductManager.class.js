@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { v4 as uuidV4 } from 'uuid';
 
-import Product from "./Product.js"
+import Product from "./Product.class.js"
 
 export default class ProductManager {
   constructor(path){
