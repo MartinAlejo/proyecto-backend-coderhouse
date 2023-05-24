@@ -32,7 +32,7 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
   let newProduct = req.body
 
-  productManager.addProduct(newProduct)
+  await productManager.addProduct(newProduct)
 
   res.send({status: "success"})
 })
@@ -41,7 +41,7 @@ router.put('/:pid', async (req, res) => {
   let id = req.params.pid
   let newProduct = req.body
 
-  productManager.updateProduct(id, newProduct)
+  await productManager.updateProduct(id, newProduct)
 
   res.send({status: "success"})
 })
@@ -49,7 +49,7 @@ router.put('/:pid', async (req, res) => {
 router.delete('/:pid', async (req, res) => {
   let id = req.params.pid
   
-  productManager.deleteProduct(id)
+  await productManager.deleteProduct(id)
 
   res.send({status: "success"})
 })
