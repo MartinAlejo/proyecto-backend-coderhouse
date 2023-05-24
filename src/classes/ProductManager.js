@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { v4 as uuidV4 } from 'uuid';
 
 import Product from "./Product.js"
 
@@ -49,12 +50,7 @@ export default class ProductManager {
 
     let newProduct = new Product(title, description, price, thumbnails, code, stock, category, status);
 
-    if (products.length === 0) {
-      newProduct.id = 1
-    }
-    else {
-      newProduct.id = products[products.length - 1].id + 1
-    }
+    newProduct.id = uuidV4()
 
     products.push(newProduct)
 
