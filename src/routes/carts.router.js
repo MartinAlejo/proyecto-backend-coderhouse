@@ -1,12 +1,16 @@
 import { Router } from "express";
-import CartManager from "../classes/CartManager.class.js";
+import CartManager from "../daos/mongodb/CartManager.class.js";
 import __dirname from "../utils.js";
 
-let path = __dirname + "/files/carts.json"
-
-let cartManager = new CartManager(path)
+let cartManager = new CartManager()
 
 const router = Router();
+
+router.get('/', async (req, res) => {
+  let carts = await cartManager.getCarts()
+
+  res.send(carts)
+})
 
 router.get('/:cid', async (req, res) => {
   let id = req.params.cid
@@ -28,12 +32,17 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
-  let cartId = req.params.cid
-  let productId = req.params.pid
+  try {
+    let cartId = req.params.cid
+    let productId = req.params.pid
 
-  await cartManager.addProductToCart(cartId, productId)
+    await cartManager.addProductToCart(cartId, productId)
 
-  res.send({status: "success"})
+    res.send({status: "success"})
+  }
+  catch(error) {
+    res.status(400).send({status: "failure", details: error.message})
+  }
 })
 
 export default router

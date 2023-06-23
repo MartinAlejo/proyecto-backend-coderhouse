@@ -1,10 +1,7 @@
 import { Router } from "express"
-import ProductManager from '../classes/ProductManager.class.js'
-import __dirname from "../utils.js"
+import ProductManager from '../daos/mongodb/ProductManager.class.js'
 
-let path = __dirname + "/files/products.json"
-
-let productManager = new ProductManager(path)
+let productManager = new ProductManager()
 
 const router = Router()
 
@@ -30,11 +27,19 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  let newProduct = req.body
+  try {
+    let newProduct = req.body
 
-  await productManager.addProduct(newProduct)
-
-  res.send({status: "success"})
+    await productManager.addProduct(newProduct)
+    
+    const products = await productManager.getProducts()
+    req.socketServer.sockets.emit('update-products', products) // Para que se actualicen los productos en tiempo real
+  
+    res.send({status: "success"})
+  }
+  catch(error) {
+    res.status(400).send({status: "failure", details: error.message})
+  }
 })
 
 router.put('/:pid', async (req, res) => {
@@ -50,6 +55,9 @@ router.delete('/:pid', async (req, res) => {
   let id = req.params.pid
   
   await productManager.deleteProduct(id)
+
+  const products = await productManager.getProducts()
+  req.socketServer.sockets.emit('update-products', products) // Para que se actualicen los productos en tiempo real
 
   res.send({status: "success"})
 })
