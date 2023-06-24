@@ -11,10 +11,12 @@ import routerViews from './routes/views.router.js'
 import { Server } from "socket.io";
 import ProductManager from './daos/mongodb/ProductManager.class.js'
 import MessageManager from './daos/mongodb/MessageManager.class.js'
+import connectDB from './db.js'
 
 // initial configuration
 
 const app = express();
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

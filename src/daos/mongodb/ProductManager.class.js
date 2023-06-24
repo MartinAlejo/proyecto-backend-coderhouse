@@ -1,9 +1,6 @@
-import mongoose from "mongoose";
 import { productsModel } from './models/products.model.js'
 
 export default class ProductManager {
-  connection = mongoose.connect('mongodb+srv://martinpolese12:Rn46YL9aT2b7p0FD@ecommerce.bpmbcoi.mongodb.net/')
-
   async addProduct(product) {
     try {
       let result = await productsModel.create(product)

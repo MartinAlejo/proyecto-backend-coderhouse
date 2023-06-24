@@ -1,10 +1,7 @@
-import mongoose from "mongoose";
 import { cartsModel } from "./models/carts.model.js";
 import ProductManager from "./ProductManager.class.js";
 
 export default class CartManager {
-  connection = mongoose.connect('mongodb+srv://martinpolese12:Rn46YL9aT2b7p0FD@ecommerce.bpmbcoi.mongodb.net/')
-
   productManager = new ProductManager()
 
   async createCart() {
