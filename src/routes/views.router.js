@@ -23,12 +23,16 @@ router.get('/chat', async (req, res) => {
 })
 
 router.get('/products', async (req, res) => {
+  let limit = req.query.limit
   let page = req.query.page
 
-  let products = await productManager.getProducts(2, page, undefined);
-  products.prevLink = products.hasPrevPage?`http://localhost:8080/products?page=${products.prevPage}`:'';
-  products.nextLink = products.hasNextPage?`http://localhost:8080/products?page=${products.nextPage}`:'';
-  
+  let products = await productManager.getProducts(limit, page); 
+
+  products.prevLink = products.hasPrevPage? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}` : '';
+  products.nextLink = products.hasNextPage? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}` : '';
+
+  console.log(products)
+
   res.render('products', {
     title: "Products",
     products: products
