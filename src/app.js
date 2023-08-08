@@ -1,17 +1,30 @@
 import express from 'express'
+
 import handlebars from 'express-handlebars'
 
 import __dirname from './utils.js'
+
+import config from './config.js'
 
 import routerProducts from './routes/products.router.js' 
 import routerCarts from './routes/carts.router.js'
 import routerMessages from './routes/messages.router.js'
 import routerViews from './routes/views.router.js'
+import routerSession from './routes/session.router.js'
 
 import { Server } from "socket.io";
-import ProductManager from './daos/mongodb/ProductManager.class.js'
-import MessageManager from './daos/mongodb/MessageManager.class.js'
+
+import ProductManager from './daos/mongodb/managers/ProductManager.class.js'
+import MessageManager from './daos/mongodb/managers/MessageManager.class.js'
+
 import connectDB from './db.js'
+
+import cookieParser from 'cookie-parser'
+
+import passport from 'passport'
+import initializePassportGithub from './config/github.passport.js'
+import initializePassportLocal from './config/local.passport.js'
+import { initializePassportJWT } from './config/jwt.passport.js'
 
 // initial configuration
 
@@ -31,9 +44,20 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
+// cookies
+
+app.use(cookieParser())
+
+// passport
+
+initializePassportGithub()
+initializePassportLocal()
+initializePassportJWT()
+app.use(passport.initialize())
+
 // server start and socket io
 
-const expressServer = app.listen(8080, () => console.log("Servidor levantado"))
+const expressServer = app.listen(config.PORT, () => console.log("Servidor levantado"))
 const socketServer = new Server(expressServer)
 
 socketServer.on("connection", async (socket) => {
@@ -89,6 +113,8 @@ app.use((req, res, next) => {
 // routers
 
 app.use("/", routerViews);
+
 app.use("/api/messages", routerMessages);
 app.use("/api/products", routerProducts);
 app.use("/api/carts", routerCarts);
+app.use('/api/sessions', routerSession)
