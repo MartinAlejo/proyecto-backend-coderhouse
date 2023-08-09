@@ -41,4 +41,5 @@ export default class UserManager {
 
     await userModel.updateOne({_id: user._id}, {$set: {password: newPassword}});
   }
+  
 }
