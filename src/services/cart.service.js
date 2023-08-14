@@ -87,7 +87,6 @@ export default class CartService {
 
   async deleteProductsFromCart(cartId, products) {
     for (let product of products) {
-      console.log(cartId, product.productId)
       await this.deleteProductFromCart(cartId, product.productId.toString())
     }
   }
