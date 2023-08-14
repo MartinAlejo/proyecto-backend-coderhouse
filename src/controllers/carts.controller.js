@@ -85,6 +85,13 @@ const updateProductQuantityFromCart = async (req, res) => {
   res.send({status: "success"})
 }
 
+
+// IMPORTANTE: Se nos pide que en caso de no poder realizar la compra de algun producto (por falta
+// de stock), que igualmente se complete la compra... pero solo para los productos que pudieron ser
+// comprados (y devolver ademas del ticket, los productos que no pudieron comprarse)
+
+// TODO: Quiza cambiar esta logica, que no tiene mucho sentido... la compra deberia anularse en su 
+// totalidad si algun producto no pudo ser comprado (preguntarle al profesor)
 const purchaseProductsFromCart = async (req, res) => {
   let code = uuidV4() // Autogenerado con uuid
 
