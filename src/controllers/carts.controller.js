@@ -96,6 +96,9 @@ const purchaseProductsFromCart = async (req, res) => {
 
   let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
 
+  // TODO: Quiza (si se mantiene esta logica), si el carrito esta vacio o no se pudo comprar ningun
+  // producto, no generar un ticket
+
   // Se eliminan del carrito los productos que pudieron ser comprados
   await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
 
