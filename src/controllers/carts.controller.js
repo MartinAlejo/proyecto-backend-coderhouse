@@ -101,9 +101,9 @@ const purchaseProductsFromCart = async (req, res) => {
 
   let ticketData = {
     code: code,
-    products: purchaseData.productsBought,
+    products: purchaseData.productsBought, // TODO: Quiza cambiar el formato de envio de productos
     amount: purchaseData.total,
-    purchaser: req.user.name
+    purchaser: req.user.email
   }
 
   let ticket = await ticketService.createTicket(ticketData)
