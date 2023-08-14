@@ -66,7 +66,6 @@ export default class CartService {
       let product = await this.productService.getProductById(prod.product._id)
 
       if (prod.quantity > product.stock) {
-        console.log("Quantity mayor que stock")
 
         productsNotBought.push(product._id); // TODO: Quiza pushear todo el producto
 
@@ -84,6 +83,13 @@ export default class CartService {
     }
 
     return { productsBought, total, productsNotBought }
+  }
+
+  async deleteProductsFromCart(cartId, products) {
+    for (let product of products) {
+      console.log(cartId, product.productId)
+      await this.deleteProductFromCart(cartId, product.productId.toString())
+    }
   }
 
 }
