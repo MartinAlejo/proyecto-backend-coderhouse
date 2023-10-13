@@ -3,19 +3,15 @@ import { productsModel } from '../models/products.model.js'
 export default class ProductManager {
 
   async addProduct(product) {
-    try {
-      let result = await productsModel.create(product)
-      return result
-    }
-    catch(error) {
-      throw new Error("Product code is duplicated")
-    }
+    let result = await productsModel.create(product)
+    return result
   }
 
   async getProducts(limit = 10, page = 1, sort = 0, filter = null, filterValue = null) {
     limit = Number(limit)
     page = Number(page)
     sort = Number(sort)
+
     let options;
 
     let filterToApply = {}
@@ -42,6 +38,13 @@ export default class ProductManager {
 
   async getProductById(id) {
     let result = await productsModel.findOne({ _id: id })
+
+    return result
+  }
+
+  async getProductByCode(code) {
+    let result = await productsModel.findOne({ code: code })
+
     return result
   }
 

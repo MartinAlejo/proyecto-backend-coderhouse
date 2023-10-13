@@ -1,3 +1,3 @@
-# Tercera Pre-Entrega del Proyecto Final del curso de Backend de Coderhouse
+# Entrega final del Proyecto del curso de Backend de Coderhouse
 
 * Alumno: Martin Alejo Polese

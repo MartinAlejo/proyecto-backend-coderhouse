@@ -1,9 +1,11 @@
 import CartService from "../services/cart.service.js";
+import ProductService from "../services/products.service.js";
 import TicketService from "../services/ticket.service.js"
 import { v4 as uuidV4 } from "uuid"
 
 let cartService = new CartService()
 let ticketService = new TicketService()
+let productsService = new ProductService()
 
 const getCarts = async (req, res) => {
   let carts = await cartService.getCarts()
@@ -30,17 +32,24 @@ const createCart = async (req, res) => {
   res.send({status: "success"})
 }
 
-const addProductToCart = async (req, res) => {
+const addProductToCart = async (req, res, next) => {
   try {
     let cartId = req.params.cid
     let productId = req.params.pid
+
+    let product = await productsService.getProductById(productId)
+    if (product.owner === req.user.email) {
+      // El creador del producto no puede agregarlo a su carrito
+      return res.status(403).
+      send({status: "failure", details: "You are the product owner. You can't add that product to your cart"})
+    }
 
     await cartService.addProductToCart(cartId, productId)
 
     res.send({status: "success"})
   }
   catch(error) {
-    res.status(400).send({status: "failure", details: error.message})
+    return next(error)
   }
 }
 

@@ -30,9 +30,26 @@ const schema = new mongoose.Schema({
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "premium"],
       default: "user",
       required: true
+    },
+    documents: {
+      type: [
+        {
+          name: {
+            type: String // Es el nombre del documento (por ejemplo, 'identification')
+          },
+          reference: {
+            type: String // Es el link al archivo
+          }
+        }
+      ],
+      default: []
+    },
+    last_connection: {
+      type: String,
+      default: Date.now() // Es en milisegundos
     }
 })
 
