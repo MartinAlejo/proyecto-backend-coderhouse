@@ -41,7 +41,8 @@ router.get('/', usersController.getAllUsers)
 
 router.delete(
   '/',
-  //adminRoleAuth, // Solo un admin puede acceder a este endpoint
+  passport.authenticate('jwt', {session: false}),
+  adminRoleAuth, // Solo un admin puede acceder a este endpoint
   usersController.deleteInactiveUsers
 )
 

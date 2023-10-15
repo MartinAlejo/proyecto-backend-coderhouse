@@ -22,7 +22,9 @@ const login = async (req, res) => {
     return res.status(400).send({status: "error", details: "Invalid credentials"})
   }
 
-  await userService.updateUserLastConnection(user.id)
+  if (user.role !== "admin") {
+    await userService.updateUserLastConnection(user.id)
+  }
 
   let token = jwt.sign(req.user, config.JWT_SECRET, {expiresIn: '24h'})
 
