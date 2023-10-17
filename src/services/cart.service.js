@@ -91,4 +91,7 @@ export default class CartService {
     }
   }
 
+  async deleteCart(cartId) {
+    await this.cartDao.deleteCart(cartId)
+  }
 }
