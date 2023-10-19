@@ -51,7 +51,7 @@ deleteUserBtn.addEventListener("click", () => {
         timer: 3000,
         timerProgressBar: true,
       });
-      setTimeout(() => window.location.replace("/"), 3000) // Recargamos la pagina para mostrar los cambios
+      setTimeout(() => window.location.replace("/users"), 3000) // Redirigimos
     }
     else {
       Swal.fire({
