@@ -5,6 +5,7 @@ export default class UserManager {
   async addUser(user, cart) {
     try {
       user.cart = cart._id
+      user.last_connection = Date.now()
 
       let result = await userModel.create(user)
 
