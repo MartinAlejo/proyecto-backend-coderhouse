@@ -3,6 +3,6 @@ export const verifyCartAccess = (req, res, next) => {
     next() // Todo bien (el carrito es el del usuario)
   }
   else {
-    res.send({status: "failure", details: "You can only use your cart"})
+    res.status(403).send({status: "failure", details: "You can only use your cart"})
   }
 }
