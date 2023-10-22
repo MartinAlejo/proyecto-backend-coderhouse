@@ -101,31 +101,36 @@ const updateProductQuantityFromCart = async (req, res) => {
 // TODO: Quiza cambiar esta logica (es la que nos piden en la consigna), que no tiene mucho sentido... la 
 // compra deberia anularse en su totalidad si algun producto no pudo ser comprado (preguntarle al profesor)
 const purchaseProductsFromCart = async (req, res) => {
-  let code = uuidV4() // Autogenerado con uuid
+  try {
+    let code = uuidV4() // Autogenerado con uuid
 
-  let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
+    let purchaseData = await cartService.purchaseAllProductsFromCart(req.user.cart) // Se hace la compra
 
-  // TODO: Quiza (si se mantiene esta logica), si el carrito esta vacio o no se pudo comprar ningun
-  // producto, no generar un ticket
+    // TODO: Quiza (si se mantiene esta logica), si el carrito esta vacio o no se pudo comprar ningun
+    // producto, no generar un ticket
 
-  // Se eliminan del carrito los productos que pudieron ser comprados
-  await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
+    // Se eliminan del carrito los productos que pudieron ser comprados
+    await cartService.deleteProductsFromCart(req.user.cart, purchaseData.productsBought) 
 
-  let ticketData = {
-    code: code,
-    products: purchaseData.productsBought, // TODO: Quiza cambiar el formato de envio de productos
-    amount: purchaseData.total,
-    purchaser: req.user.email
+    let ticketData = {
+      code: code,
+      products: purchaseData.productsBought, // TODO: Quiza cambiar el formato de envio de productos
+      amount: purchaseData.total,
+      purchaser: req.user.email
+    }
+
+    let ticket = await ticketService.createTicket(ticketData)
+
+    let payload = {
+      ticket,
+      productsUnableToPurchase: purchaseData.productsNotBought
+    }
+
+    res.send({status: "success", payload: payload})
   }
-
-  let ticket = await ticketService.createTicket(ticketData)
-
-  let payload = {
-    ticket,
-    productsUnableToPurchase: purchaseData.productsNotBought
+  catch (error) {
+    res.status(400).send({status: "failure", details: error.message})
   }
-
-  res.send({status: "success", payload: payload})
 }
 
 export default {
