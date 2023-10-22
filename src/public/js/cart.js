@@ -22,8 +22,7 @@ btnCartPurchase.addEventListener('click', async () => {
       let payload = (await result.json()).payload
       let ticketId = payload.ticket._id
 
-      console.log(ticketId)
-      //setTimeout(() => window.location.replace("/products"), 3000) // Redirigimos al ticket
+      setTimeout(() => window.location.replace(`/tickets/${ticketId}`), 3000) // Redirigimos al ticket
     }
     else {
       Swal.fire({

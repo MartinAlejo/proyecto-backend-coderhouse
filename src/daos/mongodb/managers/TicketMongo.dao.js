@@ -7,4 +7,13 @@ export default class TicketManager {
 
     return result
   }
+
+  async getTicketById(id) {
+    let result = await ticketsModel.findOne({ _id: id })
+
+    //console.log(id)
+    //console.log(result)
+
+    return result
+  }
 }

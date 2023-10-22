@@ -1,13 +1,15 @@
 import ProductService from "./products.service.js";
 import CartService from "../services/cart.service.js";
 import UserService from "../services/user.service.js"
+import TicketService from "./ticket.service.js";
 
 export default class ViewService {
 
   constructor() {
     this.productService = new ProductService()
     this.cartService = new CartService()
-    this.userService = new UserService
+    this.userService = new UserService()
+    this.ticketService = new TicketService()
   }
 
   async getProducts(limit, page, sort, filter, filterValue) {
@@ -33,8 +35,18 @@ export default class ViewService {
     
     users = users.map((user) => user.toObject())
 
-    //console.log(users)
-
     return users
   }
+
+  async getTicket(ticketId) {
+    let ticket = await this.ticketService.getTicketById(ticketId)
+
+    return ticket.toObject()
+  }
+
+  // async getDataProductsBought(ticketId) {
+  //   let productsBought = await this.ticketService.getDataProductsBought(ticketId)
+
+  //   return productsBought
+  // }
 }
