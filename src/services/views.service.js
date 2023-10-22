@@ -44,9 +44,17 @@ export default class ViewService {
     return ticket.toObject()
   }
 
-  // async getDataProductsBought(ticketId) {
-  //   let productsBought = await this.ticketService.getDataProductsBought(ticketId)
+  async getDataProductsBought(ticketId) {
+    let ticket = await this.ticketService.getTicketById(ticketId)
+    
+    let productsBought = []
 
-  //   return productsBought
-  // }
+    for (let product of ticket.products) {
+      let fullProduct = await this.productService.getProductById(product.productId)
+
+      productsBought.push({product: fullProduct.toObject(), quantity: product.quantity})
+    }
+    
+    return productsBought
+  }
 }

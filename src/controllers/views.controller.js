@@ -113,12 +113,12 @@ const ticket = async (req, res, next) => {
 
     let ticket = await viewService.getTicket(ticketId)
 
-    // let dataProductsBought = await viewService.getDataProductsBought(ticketId)
+    let dataProductsBought = await viewService.getDataProductsBought(ticketId)
 
     res.render('ticket', {
       title: "Ticket",
       ticket: ticket,
-      // dataProductsBought: dataProductsBought
+      dataProductsBought: dataProductsBought
     })
   }
   catch (err) {
