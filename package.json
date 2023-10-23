@@ -5,6 +5,7 @@
   "description": "",
   "main": "Product.js",
   "scripts": {
+    "start": "node src/app.js",
     "test": "mocha ./test/unitTests/*.js",
     "supertest": "mocha ./test/supertest.test.js"
   },
