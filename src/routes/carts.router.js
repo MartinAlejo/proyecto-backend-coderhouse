@@ -35,6 +35,6 @@ router.post(
   userRoleAuth,
   verifyCartAccess,
   cartsController.purchaseProductsFromCart
-) // Solo los usuarios pueden realizar la compra, y unicamente la de su carrito
+) // Solo los usuarios comunes pueden realizar la compra, y unicamente la de su carrito
 
 export default router
